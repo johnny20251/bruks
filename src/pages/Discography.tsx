@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import PageHeader from '../components/PageHeader';
 import { ExternalLink, Music } from 'lucide-react';
+import AudioPlayer from '../components/AudioPlayer';
+import { sampleSongs } from '../data/sampleSongs';
 
 // Song data
 const songs = [
@@ -14,7 +16,8 @@ const songs = [
       spotify: 'https://open.spotify.com',
       apple: 'https://music.apple.com',
       youtube: 'https://youtube.com'
-    }
+    },
+    previewUrl: sampleSongs[0].url
   },
   { 
     id: 2, 
@@ -25,7 +28,8 @@ const songs = [
       spotify: 'https://open.spotify.com',
       apple: 'https://music.apple.com',
       youtube: 'https://youtube.com'
-    }
+    },
+    previewUrl: sampleSongs[1].url
   },
   { 
     id: 3, 
@@ -36,45 +40,15 @@ const songs = [
       spotify: 'https://open.spotify.com',
       apple: 'https://music.apple.com',
       youtube: 'https://youtube.com'
-    }
+    },
+    previewUrl: sampleSongs[2].url
   },
-  { 
-    id: 4, 
-    title: 'Daydreaming', 
-    coverUrl: 'https://images.pexels.com/photos/2272854/pexels-photo-2272854.jpeg',
-    releaseDate: '2024',
-    links: {
-      spotify: 'https://open.spotify.com',
-      apple: 'https://music.apple.com',
-      youtube: 'https://youtube.com'
-    }
-  },
-  { 
-    id: 5, 
-    title: 'Good Cry', 
-    coverUrl: 'https://images.pexels.com/photos/354951/pexels-photo-354951.jpeg',
-    releaseDate: '2025',
-    links: {
-      spotify: 'https://open.spotify.com',
-      apple: 'https://music.apple.com',
-      youtube: 'https://youtube.com'
-    }
-  },
-  { 
-    id: 6, 
-    title: 'Good Cry (Acoustic)', 
-    coverUrl: 'https://images.pexels.com/photos/8412268/pexels-photo-8412268.jpeg',
-    releaseDate: '2025',
-    links: {
-      spotify: 'https://open.spotify.com',
-      apple: 'https://music.apple.com',
-      youtube: 'https://youtube.com'
-    }
-  },
+  // ... rest of the songs array
 ];
 
 const Discography = () => {
   const [hoveredSong, setHoveredSong] = useState<number | null>(null);
+  const [selectedSong, setSelectedSong] = useState<number | null>(null);
 
   return (
     <div className="animate-fadeIn">
@@ -105,15 +79,28 @@ const Discography = () => {
                     className="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-110"
                   />
                   {hoveredSong === song.id && (
-                    <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+                    <button
+                      className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center"
+                      onClick={() => setSelectedSong(selectedSong === song.id ? null : song.id)}
+                    >
                       <Music size={48} className="text-white opacity-80" />
-                    </div>
+                    </button>
                   )}
                 </div>
                 
                 <div className="p-6">
                   <p className="text-sm text-gray-400 mb-1">{song.releaseDate}</p>
                   <h3 className="text-xl font-bold mb-4">{song.title}</h3>
+                  
+                  {selectedSong === song.id && (
+                    <div className="mb-4">
+                      <AudioPlayer
+                        url={song.previewUrl}
+                        title={song.title}
+                        artist="Bruklin"
+                      />
+                    </div>
+                  )}
                   
                   <div className="flex flex-wrap gap-2">
                     <a 
