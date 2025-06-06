@@ -21,17 +21,23 @@ const Layout = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+    // Prevent body scroll when mobile menu is open
+    document.body.style.overflow = !isMobileMenuOpen ? 'hidden' : 'auto';
   };
 
   return (
     <div className="flex flex-col min-h-screen">
       <header 
         className={`fixed w-full z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-dark-900/90 backdrop-blur-md py-3' : 'bg-transparent py-5'
+          isScrolled ? 'bg-black/90 backdrop-blur-lg py-3 shadow-lg' : 'bg-transparent py-5'
         }`}
       >
         <div className="container-custom flex justify-between items-center">
-          <Link to="/" className="font-bold text-2xl text-white hover:text-accent-400 transition-colors">
+          <Link 
+            to="/" 
+            className="font-bold text-2xl text-white hover:text-accent-400 transition-colors"
+            aria-label="Home"
+          >
             BRUKLIN
           </Link>
           
@@ -40,7 +46,7 @@ const Layout = () => {
           </div>
           
           <button 
-            className="md:hidden text-white hover:text-accent-400 transition-colors"
+            className="md:hidden text-white hover:text-accent-400 transition-colors p-2"
             onClick={toggleMobileMenu}
             aria-label="Toggle menu"
           >
@@ -55,7 +61,7 @@ const Layout = () => {
         )}
       </AnimatePresence>
       
-      <main className="flex-grow">
+      <main className="flex-grow pt-20">
         <Outlet />
       </main>
       
