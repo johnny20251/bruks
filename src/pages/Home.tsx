@@ -1,32 +1,36 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Play, Music2, Download, ExternalLink } from 'lucide-react';
+import { Play, Music2, Download, ExternalLink, Disc } from 'lucide-react';
 
 const Home = () => {
+  const spotifyEmbedUrl = "https://open.spotify.com/embed/track/5nujrmhLynf4yMoMtj8AQF";
+
   return (
     <div className="animate-fadeIn">
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        {/* Background Image with Parallax Effect */}
         <motion.div 
-          className="absolute inset-0 bg-cover bg-center z-0" 
+          className="absolute inset-0 bg-cover bg-center bg-fixed z-0" 
           style={{backgroundImage: "url('https://images.pexels.com/photos/1021876/pexels-photo-1021876.jpeg')"}}
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.5 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black"></div>
         </motion.div>
         
         <div className="container-custom relative z-10 text-center px-4">
-          <motion.h1 
-            className="text-6xl md:text-8xl font-bold mb-6"
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="mb-8"
           >
-            BRUKLIN
-          </motion.h1>
+            <h1 className="text-6xl md:text-8xl font-bold mb-2 bg-gradient-to-r from-accent-400 to-secondary-400 text-transparent bg-clip-text">
+              BRUKLIN
+            </h1>
+            <div className="text-xl text-accent-400 font-medium">Rising Pop Star</div>
+          </motion.div>
           
           <motion.p 
             className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-200"
@@ -44,22 +48,82 @@ const Home = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             {[
-              { icon: "spotify", url: "https://open.spotify.com", color: "bg-green-600 hover:bg-green-700" },
-              { icon: "apple", url: "https://music.apple.com", color: "bg-pink-600 hover:bg-pink-700" },
-              { icon: "youtube", url: "https://youtube.com", color: "bg-red-600 hover:bg-red-700" },
-              { icon: "amazon", url: "https://music.amazon.com", color: "bg-blue-600 hover:bg-blue-700" }
+              { icon: Music2, url: "https://open.spotify.com", color: "bg-green-600 hover:bg-green-700", label: "Spotify" },
+              { icon: Disc, url: "https://music.apple.com", color: "bg-pink-600 hover:bg-pink-700", label: "Apple Music" },
+              { icon: Play, url: "https://youtube.com", color: "bg-red-600 hover:bg-red-700", label: "YouTube" }
             ].map((platform) => (
               <a 
-                key={platform.icon}
+                key={platform.label}
                 href={platform.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${platform.color} p-4 rounded-full transition-transform hover:scale-110`}
+                className={`${platform.color} p-4 rounded-full transition-all duration-300 hover:scale-110 group relative`}
               >
-                <Music2 className="w-6 h-6" />
+                <platform.icon className="w-6 h-6" />
+                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  {platform.label}
+                </span>
               </a>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* Latest Release Section */}
+      <section className="section bg-gradient-to-b from-black to-gray-900">
+        <div className="container-custom">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">
+              Latest Release
+            </h2>
+            
+            <div className="bg-gray-900 rounded-lg p-6 shadow-xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <img 
+                    src="https://images.pexels.com/photos/3756766/pexels-photo-3756766.jpeg"
+                    alt="Under Your Skin"
+                    className="rounded-lg shadow-2xl"
+                  />
+                </div>
+                
+                <div>
+                  <h3 className="text-2xl font-bold mb-2">Under Your Skin</h3>
+                  <p className="text-gray-400 mb-6">Latest Single • 2025</p>
+                  
+                  <div className="aspect-video bg-gray-800 rounded-lg mb-6 overflow-hidden">
+                    <iframe
+                      src={spotifyEmbedUrl}
+                      width="100%"
+                      height="100%"
+                      frameBorder="0"
+                      allow="encrypted-media"
+                      className="w-full h-full"
+                    ></iframe>
+                  </div>
+                  
+                  <div className="flex gap-4">
+                    <a 
+                      href="https://open.spotify.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary flex items-center gap-2"
+                    >
+                      <Music2 size={18} />
+                      Listen Now
+                    </a>
+                    <a 
+                      href="#"
+                      className="btn btn-outline flex items-center gap-2"
+                    >
+                      <Download size={18} />
+                      Download
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -157,8 +221,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-     
 
       {/* Bio Section */}
       <section className="section bg-gradient-to-b from-black to-gray-900">
